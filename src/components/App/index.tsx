@@ -1,27 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "reducers";
-import "./style.scss";
+import Catalog from "components/Catalog";
+import "./App.scss";
 
 const App: React.FC = () => {
-    const count = useSelector<RootState, number>(state => state.counterReducer);
-    const dispatch = useDispatch();
-
-    function decrement() {
-        dispatch({ type: "DECREMENT" });
-    }
-
-    function increment() {
-        dispatch({ type: "INCREMENT" });
-    }
-
-    return (
-        <div className="counter">
-            <button onClick={decrement}>-</button>
-            <span className="count">Count: {count}</span>
-            <button onClick={increment}>+</button>
-        </div>
-    );
+    return <Catalog catalogUrl="https://jsonplaceholder.typicode.com/photos" />;
 };
 
 export default App;

@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
-import { counterReducer } from "./counterReducer";
+import { catalogReducer } from "./catalogReducer";
+import { ICatalog } from "reducers/catalogReducer";
 
 export type RootState = {
-    counterReducer: number;
+    catalogReducer: ICatalog;
 };
 
 export const rootReducer = combineReducers({
-    counterReducer,
+    catalogReducer,
 });
