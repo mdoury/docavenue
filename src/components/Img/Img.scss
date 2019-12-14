@@ -1,0 +1,20 @@
+.Img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    &-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &-spinner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+}
