@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CatalogStatus, CatalogThunks, ICatalogItem } from "reducers/catalogReducer";
-import Loader from "components/Loader";
+
 import CatalogItem from "components/CatalogItem";
-import { RootState } from "reducers";
+import Loader from "components/Loader";
+
+import {
+    CatalogStatus, CatalogThunks, getPaginatedItems, getStatus
+} from "reducers/catalogReducer";
+
 import "./Catalog.scss";
 
 type Props = {
@@ -12,12 +16,12 @@ type Props = {
 
 const Catalog: React.FC<Props> = ({ catalogUrl }) => {
     const dispatch = useDispatch();
+    const paginatedItems = useSelector(getPaginatedItems);
+    const catalogStatus = useSelector(getStatus);
+
     useEffect(() => {
         dispatch(CatalogThunks.load(catalogUrl));
     }, [dispatch, catalogUrl]);
-
-    const catalogItems = useSelector<RootState, ICatalogItem[]>(state => state.catalogReducer.items);
-    const catalogStatus = useSelector<RootState, CatalogStatus>(state => state.catalogReducer.status);
 
     if (catalogStatus === CatalogStatus.Loading) {
         return <Loader />;
@@ -26,7 +30,7 @@ const Catalog: React.FC<Props> = ({ catalogUrl }) => {
     return (
         <div className="Catalog">
             <div className="Catalog-items">
-                {catalogItems.map(item => (
+                {paginatedItems.map(item => (
                     <CatalogItem key={`CatalogItem-${item.id}`} item={item} />
                 ))}
             </div>

@@ -1,6 +1,9 @@
 import React from "react";
-import { ICatalogItem } from "reducers/catalogReducer";
+
 import Img from "components/Img";
+
+import { ICatalogItem } from "reducers/catalogReducer";
+
 import "./CatalogItem.scss";
 
 type Props = {
