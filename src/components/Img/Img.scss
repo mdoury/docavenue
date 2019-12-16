@@ -4,6 +4,10 @@
     left: 0;
     width: 100%;
 
+    &.fade-in {
+        animation: fade-in 0.5s ease-in;
+    }
+
     &-wrapper {
         position: relative;
         width: 100%;
@@ -12,9 +16,18 @@
 
     &-spinner {
         position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
+        top: 25%;
+        left: 25%;
+        height: 50%;
+        width: 50%;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }
