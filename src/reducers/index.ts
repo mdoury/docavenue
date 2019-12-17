@@ -1,14 +1,16 @@
-import { ICatalog } from "reducers/catalogReducer";
 import { combineReducers } from "redux";
 
-import catalogReducer from "./catalogReducer";
+import catalogReducer, { ICatalog } from "./catalogReducer";
+import shoppingCartReducer, { IShoppingCart } from "./shoppingCartReducer";
 
 export type RootState = {
     catalogReducer: ICatalog;
+    shoppingCartReducer: IShoppingCart;
 };
 
 const rootReducer = combineReducers({
     catalogReducer,
+    shoppingCartReducer,
 });
 
 export default rootReducer;
