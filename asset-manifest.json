@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/docavenue/static/css/main.fc3c6e5a.chunk.css",
+    "main.js": "/docavenue/static/js/main.71726561.chunk.js",
+    "main.js.map": "/docavenue/static/js/main.71726561.chunk.js.map",
+    "runtime-main.js": "/docavenue/static/js/runtime-main.3238901e.js",
+    "runtime-main.js.map": "/docavenue/static/js/runtime-main.3238901e.js.map",
+    "static/js/2.7315ce42.chunk.js": "/docavenue/static/js/2.7315ce42.chunk.js",
+    "static/js/2.7315ce42.chunk.js.map": "/docavenue/static/js/2.7315ce42.chunk.js.map",
+    "index.html": "/docavenue/index.html",
+    "precache-manifest.8d363d60e7ea55df185b8c796140428b.js": "/docavenue/precache-manifest.8d363d60e7ea55df185b8c796140428b.js",
+    "service-worker.js": "/docavenue/service-worker.js",
+    "static/css/main.fc3c6e5a.chunk.css.map": "/docavenue/static/css/main.fc3c6e5a.chunk.css.map",
+    "static/js/2.7315ce42.chunk.js.LICENSE": "/docavenue/static/js/2.7315ce42.chunk.js.LICENSE",
+    "static/media/Spinner.f3fb0c41.svg": "/docavenue/static/media/Spinner.f3fb0c41.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3238901e.js",
+    "static/js/2.7315ce42.chunk.js",
+    "static/css/main.fc3c6e5a.chunk.css",
+    "static/js/main.71726561.chunk.js"
+  ]
+}
