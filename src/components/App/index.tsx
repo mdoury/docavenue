@@ -1,14 +1,15 @@
 import React from "react";
 
-import Catalog from "components/Catalog";
-import CatalogPagination from "components/CatalogNavigation";
-import ShoppingCart from "components/ShoppingCart";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
-import "./App.scss";
+import Catalog from "components/Catalog";
+import CatalogPagination from "components/CatalogPagination";
+import ShoppingCart from "components/ShoppingCart";
 
 const App: React.FC = () => {
     return (
         <>
+            <CssBaseline />
             <CatalogPagination />
             <Catalog catalogUrl="https://jsonplaceholder.typicode.com/photos" />
             <CatalogPagination />

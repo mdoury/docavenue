@@ -23,21 +23,35 @@ export type ICatalog = {
     currentPage: number;
     itemsPerPage: number;
     status: CatalogStatus;
-    error?: string;
+    error: string | null;
 };
 
-const initialState = {
+const initialState: ICatalog = {
     items: [],
     currentPage: 1,
     itemsPerPage: 15,
     status: CatalogStatus.Initial,
-    error: undefined,
+    error: null,
 };
 
 export const getCatalog = (state: RootState) => state.catalogReducer;
 export const getCatalogItems = createSelector(getCatalog, state => state.items);
 export const getCurrentPage = createSelector(getCatalog, state => state.currentPage);
 export const getItemsPerPage = createSelector(getCatalog, state => state.itemsPerPage);
+export const getItemsCount = createSelector(getCatalogItems, items => items.length);
+export const getPageCount = createSelector([getItemsCount, getItemsPerPage], (count, itemsPerPage) => Math.ceil(count / itemsPerPage));
+export const getCurrentPageFirstItem = createSelector(
+    [getCurrentPage, getItemsPerPage],
+    (currentPage, itemsPerPage) => (currentPage - 1) * itemsPerPage + 1
+);
+export const getCurrentPageLastItem = createSelector(
+    [getCurrentPage, getItemsPerPage, getItemsCount],
+    (currentPage, itemsPerPage, itemsCount) => Math.min(currentPage * itemsPerPage, itemsCount)
+);
+export const getPaginationText = createSelector(
+    [getCurrentPageFirstItem, getCurrentPageLastItem, getItemsCount],
+    (firstItem, lastItem, itemsCount) => `${firstItem}\u2011${lastItem}\u00A0of\u00A0${itemsCount}`
+);
 export const getStatus = createSelector(getCatalog, state => state.status);
 export const getPaginatedItems = createSelector([getCatalogItems, getCurrentPage, getItemsPerPage], (items, currentPage, itemsPerPage) =>
     items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
@@ -52,7 +66,7 @@ export const CatalogThunks = {
                 const items: ICatalogItem[] = await response.json();
                 dispatch(CatalogActions.loadCatalogSuccess(items));
             } catch (error) {
-                dispatch(CatalogActions.loadCatalogFailure(error));
+                dispatch(CatalogActions.loadCatalogFailure(error.message));
             }
         };
     },
@@ -61,10 +75,12 @@ export const CatalogThunks = {
 export const CatalogActions = {
     loadCatalog: createAction("[Catalog] Start loading catalog..."),
     loadCatalogSuccess: createAction<ICatalogItem[]>("[Catalog] Succeeded loading"),
-    loadCatalogFailure: createAction<Error>("[Catalog] Failed loading"),
+    loadCatalogFailure: createAction<string>("[Catalog] Failed loading"),
+    firstPage: createAction("[Catalog] First page"),
+    previousPage: createAction("[Catalog] Previous page"),
     goToPage: createAction<number>("[Catalog] Go to page"),
     nextPage: createAction("[Catalog] Next page"),
-    previousPage: createAction("[Catalog] Previous page"),
+    lastPage: createAction("[Catalog] Last page"),
     setItemsPerPage: createAction<number>("[Catalog] Set items per page"),
 };
 
@@ -81,8 +97,16 @@ const catalogReducer = createReducer<ICatalog>(initialState, builder =>
         }))
         .addCase(CatalogActions.loadCatalogFailure, (state, action) => ({
             ...state,
-            error: action.payload.message,
+            error: action.payload,
             status: CatalogStatus.Error,
+        }))
+        .addCase(CatalogActions.firstPage, state => ({
+            ...state,
+            currentPage: 1,
+        }))
+        .addCase(CatalogActions.previousPage, state => ({
+            ...state,
+            currentPage: (state.currentPage - 1) * state.itemsPerPage > 0 ? state.currentPage - 1 : state.currentPage,
         }))
         .addCase(CatalogActions.goToPage, (state, action) => ({
             ...state,
@@ -92,9 +116,9 @@ const catalogReducer = createReducer<ICatalog>(initialState, builder =>
             ...state,
             currentPage: (state.currentPage + 1) * state.itemsPerPage < state.items.length ? state.currentPage + 1 : state.currentPage,
         }))
-        .addCase(CatalogActions.previousPage, state => ({
+        .addCase(CatalogActions.lastPage, state => ({
             ...state,
-            currentPage: (state.currentPage - 1) * state.itemsPerPage > 0 ? state.currentPage - 1 : state.currentPage,
+            currentPage: Math.ceil(state.items.length / state.itemsPerPage),
         }))
         .addCase(CatalogActions.setItemsPerPage, (state, action) => ({
             ...state,

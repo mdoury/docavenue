@@ -30,33 +30,31 @@ export const getShoppingCartCatalogItems = createSelector(
 );
 
 export const ShoppingCartActions = {
-    add: createAction<number>("[ShoppingCart] Add item"),
+    addItem: createAction<number>("[ShoppingCart] Add item"),
     remove: createAction<number>("[ShoppingCart] Remove item"),
+    updateItemQuantity: createAction<{ id: number; quantity: number }>("[ShoppingCart] Update item quantity"),
 };
 
 const shoppingCartReducer = createReducer<IShoppingCart>(initialState, builder =>
     builder
-        .addCase(ShoppingCartActions.add, (state, action) => {
+        .addCase(ShoppingCartActions.addItem, (state, action) => {
             const { catalogItemIds, quantityMap } = state;
             if (catalogItemIds.includes(action.payload)) {
-                return {
-                    catalogItemIds,
-                    quantityMap: { ...quantityMap, [action.payload]: quantityMap[action.payload] + 1 },
-                };
+                quantityMap[action.payload] = quantityMap[action.payload] + 1;
+            } else {
+                catalogItemIds.unshift(action.payload);
+                quantityMap[action.payload] = 1;
             }
-            return {
-                catalogItemIds: [action.payload, ...catalogItemIds],
-                quantityMap: { ...quantityMap, [action.payload]: 1 },
-            };
         })
         .addCase(ShoppingCartActions.remove, (state, action) => {
             const { catalogItemIds, quantityMap } = state;
-            const quantityMapCopy = { ...quantityMap };
-            delete quantityMapCopy[action.payload];
-            return {
-                catalogItemIds: catalogItemIds.filter(catalogItemId => catalogItemId !== action.payload),
-                quantityMap: quantityMapCopy,
-            };
+            const index = catalogItemIds.findIndex(catalogItemId => catalogItemId === action.payload);
+            delete catalogItemIds[index];
+            delete quantityMap[action.payload];
+        })
+        .addCase(ShoppingCartActions.updateItemQuantity, (state, action) => {
+            const { id, quantity } = action.payload;
+            state.quantityMap[id] = quantity;
         })
 );
 

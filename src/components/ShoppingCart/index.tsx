@@ -1,22 +1,35 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+
 import ShoppingCartItem from "components/ShoppingCartItem";
 
 import {
     getShoppingCartCatalogItems, getShoppingCartQuantityMap
 } from "reducers/shoppingCartReducer";
 
-import "./ShoppingCart.scss";
+const useStyles = makeStyles(
+    (theme: Theme) =>
+        createStyles({
+            root: {
+                display: "flex",
+                flexDirection: "column",
+                padding: theme.spacing(2),
+            },
+        }),
+    { name: "ShoppingCart" }
+);
 
 type Props = {};
 
 const ShoppingCart: React.FC<Props> = () => {
     const shoppingCartItems = useSelector(getShoppingCartCatalogItems);
     const quantityMap = useSelector(getShoppingCartQuantityMap);
+    const classes = useStyles();
 
     return (
-        <div className="ShoppingCart">
+        <div className={classes.root}>
             {shoppingCartItems.map(item => (
                 <ShoppingCartItem key={`ShoppingCartItem-${item.id}`} item={item} quantity={quantityMap[item.id]} />
             ))}
