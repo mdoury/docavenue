@@ -46,6 +46,14 @@ const useStyles = makeStyles(
                 ...theme.typography.h5,
                 margin: "auto 0",
             },
+            pageContent: {
+                display: "flex",
+                flexDirection: "column",
+                flex: "1 0 auto",
+                [theme.breakpoints.down("xs")]: {
+                    marginBottom: 48,
+                },
+            },
             bottomNavigation: {
                 position: "absolute",
                 bottom: 0,
@@ -119,7 +127,7 @@ const Layout: React.FC<Props> = ({ children }) => {
                     </>
                 )}
             </AppBar>
-            {children}
+            <div className={classes.pageContent}>{children}</div>
             {width === "xs" && (
                 <BottomNavigation className={classes.bottomNavigation} value={page} onChange={goToPage}>
                     <BottomNavigationAction value={Routes.CATALOG} icon={<ListIcon />} />
