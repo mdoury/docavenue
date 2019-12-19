@@ -6,7 +6,7 @@ import Layout from "components/Layout";
 import ShoppingCart from "components/ShoppingCart";
 
 export enum Routes {
-    CATALOG = "/",
+    CATALOG = "",
     CART = "/cart",
 }
 
