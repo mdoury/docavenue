@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/docavenue/static/css/main.fc3c6e5a.chunk.css",
-    "main.js": "/docavenue/static/js/main.4a42d25e.chunk.js",
-    "main.js.map": "/docavenue/static/js/main.4a42d25e.chunk.js.map",
+    "main.js": "/docavenue/static/js/main.678d51c2.chunk.js",
+    "main.js.map": "/docavenue/static/js/main.678d51c2.chunk.js.map",
     "runtime-main.js": "/docavenue/static/js/runtime-main.3238901e.js",
     "runtime-main.js.map": "/docavenue/static/js/runtime-main.3238901e.js.map",
     "static/js/2.7315ce42.chunk.js": "/docavenue/static/js/2.7315ce42.chunk.js",
     "static/js/2.7315ce42.chunk.js.map": "/docavenue/static/js/2.7315ce42.chunk.js.map",
     "index.html": "/docavenue/index.html",
-    "precache-manifest.b15688fefc081f905bf40551bf1fad21.js": "/docavenue/precache-manifest.b15688fefc081f905bf40551bf1fad21.js",
+    "precache-manifest.f70a0d2f1647ac79866f98e8af77f198.js": "/docavenue/precache-manifest.f70a0d2f1647ac79866f98e8af77f198.js",
     "service-worker.js": "/docavenue/service-worker.js",
     "static/css/main.fc3c6e5a.chunk.css.map": "/docavenue/static/css/main.fc3c6e5a.chunk.css.map",
     "static/js/2.7315ce42.chunk.js.LICENSE": "/docavenue/static/js/2.7315ce42.chunk.js.LICENSE",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.3238901e.js",
     "static/js/2.7315ce42.chunk.js",
     "static/css/main.fc3c6e5a.chunk.css",
-    "static/js/main.4a42d25e.chunk.js"
+    "static/js/main.678d51c2.chunk.js"
   ]
 }
