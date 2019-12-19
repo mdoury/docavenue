@@ -1,7 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { createStyles, IconButton, makeStyles, TextField, Theme } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import IconButton from "@material-ui/core/IconButton";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import Img from "components/Img";
@@ -53,7 +56,7 @@ const ShoppingCartItem: React.FC<Props> = ({ item, quantity }) => {
     }
 
     return (
-        <div className={classes.root}>
+        <Card className={classes.root}>
             <Img
                 src={item.thumbnailUrl}
                 alt={item.title}
@@ -67,7 +70,7 @@ const ShoppingCartItem: React.FC<Props> = ({ item, quantity }) => {
             <IconButton color="primary" onClick={removeFromCart}>
                 <DeleteIcon />
             </IconButton>
-        </div>
+        </Card>
     );
 };
 

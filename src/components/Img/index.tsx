@@ -1,6 +1,6 @@
 import React, { ImgHTMLAttributes, useState } from "react";
 
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import Spinner from "assets/Spinner.svg";
 

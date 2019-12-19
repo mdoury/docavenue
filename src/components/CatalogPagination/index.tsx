@@ -1,8 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { createStyles, InputLabel, makeStyles, Select, Theme } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
@@ -84,14 +86,6 @@ const CatalogPagination: React.FC<Props> = () => {
     return (
         <div className={classes.root}>
             <div className={classes.info}>
-                {/* <TextField
-                    label="Items per page"
-                    name="itemsPerPage"
-                    type="number"
-                    value={itemsPerPage}
-                    onChange={setItemsPerPage}
-                    inputProps={{ step: 5 }}
-                /> */}
                 <InputLabel className={classes.text} id="catalog-pagination-select-label">
                     Items per page
                 </InputLabel>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import ShoppingCartItem from "components/ShoppingCartItem";
 
@@ -16,6 +16,10 @@ const useStyles = makeStyles(
                 display: "flex",
                 flexDirection: "column",
                 padding: theme.spacing(2),
+                width: "100%",
+                "& > * + *": {
+                    marginTop: theme.spacing(2),
+                },
             },
         }),
     { name: "ShoppingCart" }

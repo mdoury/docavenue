@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 
 import CatalogItem from "components/CatalogItem";
+import CatalogPagination from "components/CatalogPagination";
 import Loader from "components/Loader";
 
 import {
@@ -18,6 +19,11 @@ const useStyles = makeStyles(
     (theme: Theme) =>
         createStyles({
             root: {
+                display: "flex",
+                flexDirection: "column",
+                flex: "1 0 auto",
+            },
+            wrapper: {
                 padding: theme.spacing(2),
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
@@ -25,10 +31,13 @@ const useStyles = makeStyles(
                 [theme.breakpoints.down("xs")]: {
                     display: "flex",
                     flexDirection: "column",
-                    "&>*+*": {
+                    "& > * + *": {
                         marginTop: theme.spacing(2),
                     },
                 },
+            },
+            loader: {
+                margin: "auto",
             },
         }),
     { name: "Catalog" }
@@ -41,18 +50,24 @@ const Catalog: React.FC<Props> = ({ catalogUrl }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        dispatch(CatalogThunks.load(catalogUrl));
-    }, [dispatch, catalogUrl]);
+        if (catalogStatus !== CatalogStatus.Loading && catalogStatus !== CatalogStatus.Loaded) {
+            dispatch(CatalogThunks.load(catalogUrl));
+        }
+    }, [dispatch, catalogUrl, catalogStatus]);
 
-    if (catalogStatus === CatalogStatus.Loading) {
-        return <Loader />;
+    if (catalogStatus !== CatalogStatus.Loaded) {
+        return <Loader className={classes.loader} />;
     }
 
     return (
         <div className={classes.root}>
-            {paginatedItems.map(item => (
-                <CatalogItem key={`CatalogItem-${item.id}`} item={item} />
-            ))}
+            <CatalogPagination />
+            <div className={classes.wrapper}>
+                {paginatedItems.map(item => (
+                    <CatalogItem key={`CatalogItem-${item.id}`} item={item} />
+                ))}
+            </div>
+            <CatalogPagination />
         </div>
     );
 };

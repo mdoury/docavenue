@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { deepOrange, teal } from "@material-ui/core/colors";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import App from "components/App";
 
@@ -11,7 +13,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import configureStore from "configureStore";
 
-import "./index.scss";
+import "./index.css";
 
 const theme = createMuiTheme({
     palette: {
@@ -30,7 +32,10 @@ const store = configureStore();
 ReactDOM.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <App />
+            <BrowserRouter>
+                <CssBaseline />
+                <App />
+            </BrowserRouter>
         </ThemeProvider>
     </Provider>,
     document.getElementById("root")
