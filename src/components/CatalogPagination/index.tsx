@@ -11,7 +11,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
 import {
-    CatalogActions, getCurrentPage, getItemsPerPage, getPageCount, getPaginationText
+    CatalogActions, getCurrentPage, getDisplayPageCount, getItemsPerPage, getPaginationText
 } from "reducers/catalogReducer";
 
 const useStyles = makeStyles(
@@ -55,7 +55,7 @@ const CatalogPagination: React.FC<Props> = () => {
     const dispatch = useDispatch();
     const currentPage = useSelector(getCurrentPage);
     const itemsPerPage = useSelector(getItemsPerPage);
-    const pageCount = useSelector(getPageCount);
+    const pageCount = useSelector(getDisplayPageCount);
     const paginationText = useSelector(getPaginationText);
     const classes = useStyles();
 
@@ -75,11 +75,11 @@ const CatalogPagination: React.FC<Props> = () => {
     }
 
     function goToNextPage() {
-        dispatch(CatalogActions.nextPage());
+        dispatch(CatalogActions.nextPage(pageCount));
     }
 
     function goToLastPage() {
-        dispatch(CatalogActions.lastPage());
+        dispatch(CatalogActions.lastPage(pageCount));
     }
 
     return (
@@ -108,10 +108,10 @@ const CatalogPagination: React.FC<Props> = () => {
                 <IconButton onClick={goToPreviousPage} disabled={currentPage <= 1} aria-label="previous page">
                     <KeyboardArrowLeft />
                 </IconButton>
-                <IconButton onClick={goToNextPage} disabled={currentPage >= pageCount - 1} aria-label="next page">
+                <IconButton onClick={goToNextPage} disabled={currentPage >= pageCount} aria-label="next page">
                     <KeyboardArrowRight />
                 </IconButton>
-                <IconButton onClick={goToLastPage} disabled={currentPage >= pageCount - 1} aria-label="last page">
+                <IconButton onClick={goToLastPage} disabled={currentPage >= pageCount} aria-label="last page">
                     <LastPageIcon />
                 </IconButton>
             </div>

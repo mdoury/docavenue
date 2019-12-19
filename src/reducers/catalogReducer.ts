@@ -53,6 +53,9 @@ export const getDisplayItems = createSelector([getSearch, getSearchResults, getC
     search && search.length ? results : items
 );
 export const getDisplayItemsCount = createSelector(getDisplayItems, items => items.length);
+export const getDisplayPageCount = createSelector([getDisplayItemsCount, getItemsPerPage], (count, itemsPerPage) =>
+    Math.ceil(count / itemsPerPage)
+);
 
 export const getPaginatedItems = createSelector([getDisplayItems, getCurrentPage, getItemsPerPage], (items, currentPage, itemsPerPage) =>
     items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
@@ -93,8 +96,8 @@ export const CatalogActions = {
     firstPage: createAction("[Catalog] First page"),
     previousPage: createAction("[Catalog] Previous page"),
     goToPage: createAction<number>("[Catalog] Go to page"),
-    nextPage: createAction("[Catalog] Next page"),
-    lastPage: createAction("[Catalog] Last page"),
+    nextPage: createAction<number>("[Catalog] Next page"),
+    lastPage: createAction<number>("[Catalog] Last page"),
     setItemsPerPage: createAction<number>("[Catalog] Set items per page"),
     search: createAction<string>("[Catalog] Search"),
 };
@@ -127,13 +130,13 @@ const catalogReducer = createReducer<ICatalog>(initialState, builder =>
             ...state,
             currentPage: action.payload,
         }))
-        .addCase(CatalogActions.nextPage, state => ({
+        .addCase(CatalogActions.nextPage, (state, action) => ({
             ...state,
-            currentPage: (state.currentPage + 1) * state.itemsPerPage < state.items.length ? state.currentPage + 1 : state.currentPage,
+            currentPage: state.currentPage < action.payload ? state.currentPage + 1 : state.currentPage,
         }))
-        .addCase(CatalogActions.lastPage, state => ({
+        .addCase(CatalogActions.lastPage, (state, action) => ({
             ...state,
-            currentPage: Math.ceil(state.items.length / state.itemsPerPage),
+            currentPage: action.payload,
         }))
         .addCase(CatalogActions.setItemsPerPage, (state, action) => ({
             ...state,
