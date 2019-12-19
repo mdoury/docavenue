@@ -1,5 +1,6 @@
 import { Action, createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 
+import Fuse from "fuse.js";
 import { RootState } from "reducers";
 import { ThunkAction } from "redux-thunk";
 
@@ -22,6 +23,7 @@ export type ICatalog = {
     items: ICatalogItem[];
     currentPage: number;
     itemsPerPage: number;
+    search: string;
     status: CatalogStatus;
     error: string | null;
 };
@@ -30,6 +32,7 @@ const initialState: ICatalog = {
     items: [],
     currentPage: 1,
     itemsPerPage: 15,
+    search: "",
     status: CatalogStatus.Initial,
     error: null,
 };
@@ -40,21 +43,32 @@ export const getCurrentPage = createSelector(getCatalog, state => state.currentP
 export const getItemsPerPage = createSelector(getCatalog, state => state.itemsPerPage);
 export const getItemsCount = createSelector(getCatalogItems, items => items.length);
 export const getPageCount = createSelector([getItemsCount, getItemsPerPage], (count, itemsPerPage) => Math.ceil(count / itemsPerPage));
+export const getStatus = createSelector(getCatalog, state => state.status);
+
+export const getSearch = createSelector(getCatalog, state => state.search);
+export const getFuseSearchInstance = createSelector(getCatalogItems, items => new Fuse(items, { keys: ["title"] }));
+export const getSearchResults = createSelector([getFuseSearchInstance, getSearch], (fuse, search) => fuse.search(search));
+
+export const getDisplayItems = createSelector([getSearch, getSearchResults, getCatalogItems], (search, results, items) =>
+    search && search.length ? results : items
+);
+export const getDisplayItemsCount = createSelector(getDisplayItems, items => items.length);
+
+export const getPaginatedItems = createSelector([getDisplayItems, getCurrentPage, getItemsPerPage], (items, currentPage, itemsPerPage) =>
+    items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+);
+
 export const getCurrentPageFirstItem = createSelector(
     [getCurrentPage, getItemsPerPage],
     (currentPage, itemsPerPage) => (currentPage - 1) * itemsPerPage + 1
 );
 export const getCurrentPageLastItem = createSelector(
-    [getCurrentPage, getItemsPerPage, getItemsCount],
+    [getCurrentPage, getItemsPerPage, getDisplayItemsCount],
     (currentPage, itemsPerPage, itemsCount) => Math.min(currentPage * itemsPerPage, itemsCount)
 );
 export const getPaginationText = createSelector(
-    [getCurrentPageFirstItem, getCurrentPageLastItem, getItemsCount],
+    [getCurrentPageFirstItem, getCurrentPageLastItem, getDisplayItemsCount],
     (firstItem, lastItem, itemsCount) => `${firstItem}\u2011${lastItem}\u00A0of\u00A0${itemsCount}`
-);
-export const getStatus = createSelector(getCatalog, state => state.status);
-export const getPaginatedItems = createSelector([getCatalogItems, getCurrentPage, getItemsPerPage], (items, currentPage, itemsPerPage) =>
-    items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
 );
 
 export const CatalogThunks = {
@@ -82,6 +96,7 @@ export const CatalogActions = {
     nextPage: createAction("[Catalog] Next page"),
     lastPage: createAction("[Catalog] Last page"),
     setItemsPerPage: createAction<number>("[Catalog] Set items per page"),
+    search: createAction<string>("[Catalog] Search"),
 };
 
 const catalogReducer = createReducer<ICatalog>(initialState, builder =>
@@ -122,7 +137,13 @@ const catalogReducer = createReducer<ICatalog>(initialState, builder =>
         }))
         .addCase(CatalogActions.setItemsPerPage, (state, action) => ({
             ...state,
+            currentPage: 1,
             itemsPerPage: action.payload,
+        }))
+        .addCase(CatalogActions.search, (state, action) => ({
+            ...state,
+            search: action.payload,
+            currentPage: 1,
         }))
 );
 

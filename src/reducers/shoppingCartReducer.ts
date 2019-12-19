@@ -28,6 +28,10 @@ export const getShoppingCartCatalogItems = createSelector(
     [getShoppingCartCatalogItemIds, getCatalogItems],
     (catalogItemIds, catalogItems) => catalogItemIds.map(catalogItemId => catalogItems.find(item => item.id === catalogItemId)!)
 );
+export const getShoppingCartItemsCount = createSelector(
+    [getShoppingCartCatalogItemIds, getShoppingCartQuantityMap],
+    (itemIds, quantityMap) => itemIds.reduce((count, itemId) => count + quantityMap[itemId], 0)
+);
 
 export const ShoppingCartActions = {
     addItem: createAction<number>("[ShoppingCart] Add item"),

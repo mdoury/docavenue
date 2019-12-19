@@ -45,7 +45,7 @@ const useStyles = makeStyles(
 
 const Catalog: React.FC<Props> = ({ catalogUrl }) => {
     const dispatch = useDispatch();
-    const paginatedItems = useSelector(getPaginatedItems);
+    const items = useSelector(getPaginatedItems);
     const catalogStatus = useSelector(getStatus);
     const classes = useStyles();
 
@@ -63,7 +63,7 @@ const Catalog: React.FC<Props> = ({ catalogUrl }) => {
         <div className={classes.root}>
             <CatalogPagination />
             <div className={classes.wrapper}>
-                {paginatedItems.map(item => (
+                {items.map(item => (
                     <CatalogItem key={`CatalogItem-${item.id}`} item={item} />
                 ))}
             </div>

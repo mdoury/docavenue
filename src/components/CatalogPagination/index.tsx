@@ -63,7 +63,6 @@ const CatalogPagination: React.FC<Props> = () => {
         const itemsPerPage = event.target.value as number;
         if (itemsPerPage > 0) {
             dispatch(CatalogActions.setItemsPerPage(itemsPerPage));
-            dispatch(CatalogActions.firstPage());
         }
     }
 
