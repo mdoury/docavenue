@@ -2,6 +2,7 @@
     "name": "docavenue",
     "version": "0.1.0",
     "private": true,
+    "homepage": "http://mdoury.github.io/docavenue",
     "scripts": {
         "build": "node scripts/build.js",
         "deploy": "yarn ghpages mdoury/docavenue -p dist",

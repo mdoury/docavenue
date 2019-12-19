@@ -32,7 +32,7 @@ const store = configureStore();
 ReactDOM.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.NODE_ENV === "production" ? "/docavenue" : ""}>
                 <CssBaseline />
                 <App />
             </BrowserRouter>
